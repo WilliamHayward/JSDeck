@@ -24,11 +24,32 @@ class JSDeck {
     }
 
     public shuffle() : void {
-
+        this.cards = this.shuffleArray(this.cards);
+        this.position = 0;
     }
 
     public shuffleRemaining() : void {
+        let remaining = this.cards.slice(this.position);
+        remaining = this.shuffleArray(remaining);
 
+        let i;
+        for (i = 0; i < remaining.length; i++) {
+            this.cards[this.position + i] = remaining[i];
+        }
+    }
+
+    private shuffleArray(arr : any[]) : any[] {
+        arr = arr.slice(); // Clone array
+        let ret = [];
+        let value;
+        let rand;
+        while (arr.length > 0) {
+            rand = Math.random() * arr.length;
+            rand = Math.floor(rand);
+            value = arr.splice(rand, 1);
+            ret.push(value[0]);
+        }
+        return ret;
     }
 
     public draw(count? : number) : any {
