@@ -74,7 +74,7 @@ class JSDeck {
     }
 
     public reset() {
-
+        this.position = 0;
     }
 }
 
