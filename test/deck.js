@@ -12,10 +12,10 @@ describe('Deck', function() {
         assert.equal(deck.size(), 3);
         
         deck = new JSDeck([
-            new JSDeck.Card("1"),
-            new JSDeck.Card("2"),
-            new JSDeck.Card("3"),
-            new JSDeck.Card("4")
+            "1",
+            "2",
+            "3",
+            "4"
         ]);
         assert.equal(deck.size(), 4);
     });
@@ -24,12 +24,10 @@ describe('Deck', function() {
         var deck = new JSDeck();
         assert.equal(deck.size(), 0);
 
-        var card = new JSDeck.Card("Apple");
-        deck.add(card);
+        deck.add("Apple");
         assert.equal(deck.size(), 1);
 
-        card = new JSDeck.Card("Peach");
-        deck.add(card, 2);
+        deck.add("Peach", 2);
         assert.equal(deck.size(), 3);
 
         deck.add("Banana");
@@ -119,6 +117,28 @@ describe('Deck', function() {
         assert.equal(deck.remaining(), 2); // 2 cards remaining
         assert.equal(deck.size(), 6); // SHould not effect total size of deck
     });
+
+    it ('Should gracefully handle deck exhaustion', function() {
+        var deck = new JSDeck([
+            "1",
+            "2",
+            "3"
+        ]);
+
+        var cards = deck.draw(3);
+        assert.deepEqual(cards, ["1", "2", "3"]);
+        cards = deck.draw();
+        assert.deepEqual(cards, null);
+        
+        deck = new JSDeck([
+            "1",
+            "2",
+            "3"
+        ]);
+
+        var cards = deck.draw(4);
+        assert.deepEqual(cards, ["1", "2", "3", null]);
+    })
 
     it ('Should allow cards to be returned', function() {
         // TODO: Not a priority
